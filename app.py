@@ -12,7 +12,6 @@ cors = CORS(app, resources={r"": {"origins": "http://localhost:port"}})
 
 @app.route('/pictures', methods=['POST'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-# Message message
 def createPicture():
 
     # récupérer toute la post request en dict
@@ -24,21 +23,16 @@ def createPicture():
 
     return picture.__dict__
 
-@app.route('/pictures', methods=['GET'])
+@app.route('/pictures/<name>', methods=['GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
-# Message message
-def getPictures():
+def getPictures(name):
 
-    # récupérer toute la post request en dict
-    requ = request.get_json()
-    # convertir le dictionnaire en objet Message
-    name = requ['name']
     managerPicture = ManagerPicture(pictures=[])
     managerPicture.setPicturesFromADirectory(name)
 
     print(managerPicture.pictures)
 
-    return jsonify(pictures=[picture.__dict__ for picture in managerPicture.pictures])
+    return jsonify([picture.__dict__ for picture in managerPicture.pictures])
 
 if __name__ == "__main__":
 	app.run()

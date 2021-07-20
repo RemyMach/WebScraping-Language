@@ -12,4 +12,4 @@ class ManagerPicture:
         if os.path.isdir("static/" + name):
             files = [f for f in os.listdir("static/" + name) if os.path.isfile(os.path.join("static/" + name, f))]
             for file in files:
-                self.addPicture(Picture(file))
+                self.addPicture(Picture(name + "/" + file))
