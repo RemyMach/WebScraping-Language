@@ -1,7 +1,9 @@
+from manager_picture import ManagerPicture
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS, cross_origin
 from picture import Picture
 from scraper_image import ScraperImage
+from manager_picture import ManagerPicture
 
 
 app = Flask(__name__)
@@ -21,6 +23,22 @@ def createPicture():
     ScraperImage.imageScrape(picture.name, picture.name)
 
     return picture.__dict__
+
+@app.route('/pictures', methods=['GET'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+# Message message
+def getPictures():
+
+    # récupérer toute la post request en dict
+    requ = request.get_json()
+    # convertir le dictionnaire en objet Message
+    name = requ['name']
+    managerPicture = ManagerPicture(pictures=[])
+    managerPicture.setPicturesFromADirectory(name)
+
+    print(managerPicture.pictures)
+
+    return jsonify(pictures=[picture.__dict__ for picture in managerPicture.pictures])
 
 if __name__ == "__main__":
 	app.run()
