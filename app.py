@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 from picture import Picture
 from scraper_image import ScraperImage
 from manager_picture import ManagerPicture
+from mlws.mlws import MLWS
 
 
 app = Flask(__name__)
@@ -37,15 +38,16 @@ def getPictures(name):
 @app.route('/weblanguage', methods=['POST'])
 def upload_file():
     f = request.files['file']
-    content = f.read()
-    print(content.decode())
-    """with open(f, 'rb') as infile:
-        for line in infile:
-            print(line)"""
-            
-        
+    directoryName = request.form['directory']
+    fileContent = f.read()
+    fileContentDecode = fileContent.decode()
+    mlws = MLWS(fileContentDecode, directoryName)
+    if mlws.validate():
+        mlws.parse()
+    else:
+        return {"Error": "File not recognized"};     
     #f.save(secure_filename(f.filename))
-    return 'file uploaded successfully'
+    return {"result": mlws.textOut}
 
 if __name__ == "__main__":
 	app.run()
