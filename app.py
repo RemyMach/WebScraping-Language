@@ -34,5 +34,18 @@ def getPictures(name):
 
     return jsonify([picture.__dict__ for picture in managerPicture.pictures])
 
+@app.route('/weblanguage', methods=['POST'])
+def upload_file():
+    f = request.files['file']
+    content = f.read()
+    print(content.decode())
+    """with open(f, 'rb') as infile:
+        for line in infile:
+            print(line)"""
+            
+        
+    #f.save(secure_filename(f.filename))
+    return 'file uploaded successfully'
+
 if __name__ == "__main__":
 	app.run()
