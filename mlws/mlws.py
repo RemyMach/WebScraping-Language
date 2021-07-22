@@ -171,7 +171,7 @@ class MLWS:
                         self.variables[var] = result
                         search_type = "on wikipedia"
                     elif '-i' in options:
-                        image = Image()
+                        image = Image(self.directoryName)
                         result = image.imageScrape(word, var)
                         search_type = "image"
                     else:

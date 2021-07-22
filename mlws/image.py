@@ -12,6 +12,8 @@ class Image:
         True si les images sont sauvegarder
         None si la recherche echoue
     '''
+    def __init__(self, directoryName):
+        self.directoryName = directoryName
 
     def imageScrape(self, term, var):
         term = term.replace(' ', '+')
@@ -33,7 +35,9 @@ class Image:
             return None
 
         count = 0
+        var = self.directoryName + "/" + var
         if not os.path.isdir(var):
+            # If directory doesn't exist, create it
             os.mkdir(var)
         for image in images:
             image.click()
