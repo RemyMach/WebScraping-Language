@@ -36,6 +36,7 @@ def getPictures(name):
     return jsonify([picture.__dict__ for picture in managerPicture.pictures])
 
 @app.route('/weblanguage', methods=['POST'])
+@cross_origin(origin='*',headers=['Content-Type'])
 def upload_file():
     f = request.files['file']
     directoryName = request.form['directory']
